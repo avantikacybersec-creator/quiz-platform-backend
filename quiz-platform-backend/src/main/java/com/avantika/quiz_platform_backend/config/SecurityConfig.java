@@ -1,7 +1,7 @@
 package com.avantika.quiz_platform_backend.config;
 
-import com.avantika.quiz_platform_backend.security.JwtAuthenticationFilter;
 import com.avantika.quiz_platform_backend.security.CustomUserDetailsService;
+import com.avantika.quiz_platform_backend.security.JwtAuthenticationFilter;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
@@ -79,8 +78,9 @@ public class SecurityConfig {
                                 "/api/student/**"
                         ).hasRole("STUDENT")
 
-                        .requestMatchers(HttpMethod.OPTIONS, "/**")
-                        .permitAll()
+                        .requestMatchers(
+                                HttpMethod.OPTIONS, "/**"
+                        ).permitAll()
 
                         .anyRequest()
                         .authenticated()

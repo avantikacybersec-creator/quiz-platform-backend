@@ -19,25 +19,26 @@ export default function Login() {
   const [error, setError] = useState("");
 
   const onSubmit = async (data) => {
-    try {
-      setError("");
+      try {
+          setError("");
 
-      const response = await api.post("/auth/login", data);
+          const userData = await login(
+              data.email,
+              data.password
+          );
 
-      login(response.data);
+          if (userData.role === "ADMIN") {
+              navigate("/admin/dashboard");
+          } else {
+              navigate("/student/dashboard");
+          }
 
-      if (response.data.role === "ADMIN") {
-        navigate("/admin/dashboard");
-      } else {
-        navigate("/student/dashboard");
+      } catch (error) {
+          setError(
+              error.response?.data?.message ||
+              "Invalid email or password"
+          );
       }
-
-    } catch (error) {
-      setError(
-        error.response?.data?.message ||
-        "Invalid email or password"
-      );
-    }
   };
 
   return (
