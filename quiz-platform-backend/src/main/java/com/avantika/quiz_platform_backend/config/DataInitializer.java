@@ -1,6 +1,5 @@
 package com.avantika.quiz_platform_backend.config;
 
-
 import com.avantika.quiz_platform_backend.entity.User;
 import com.avantika.quiz_platform_backend.enums.Role;
 import com.avantika.quiz_platform_backend.repository.UserRepository;
@@ -14,19 +13,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class DataInitializer {
 
     @Bean
-    CommandLineRunner createAdmin(
+    CommandLineRunner initializeAdmin(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder
     ) {
         return args -> {
 
-            String email = "admin@gmail.com";
+            String adminEmail = "admin@quiz.com";
 
-            if (!userRepository.existsByEmail(email)) {
+            if (!userRepository.existsByEmail(adminEmail)) {
 
                 User admin = User.builder()
-                        .name("Admin")
-                        .email(email)
+                        .name("Quiz Admin")
+                        .email(adminEmail)
                         .password(
                                 passwordEncoder.encode("Admin@123")
                         )
@@ -37,7 +36,7 @@ public class DataInitializer {
                 userRepository.save(admin);
 
                 System.out.println(
-                        "ADMIN USER CREATED: " + email
+                        "Default admin account created: " + adminEmail
                 );
             }
         };

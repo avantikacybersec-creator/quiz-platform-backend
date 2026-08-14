@@ -84,6 +84,7 @@ public class SecurityConfig {
 
                         .anyRequest()
                         .authenticated()
+
                 )
 
                 .addFilterBefore(

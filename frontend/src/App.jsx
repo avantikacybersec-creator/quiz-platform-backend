@@ -5,13 +5,14 @@ import {
   Navigate,
 } from "react-router-dom";
 
+
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import Categories from "./pages/admin/Categories";
 import StudentDashboard from "./pages/student/StudentDashboard";
-
+import Quizzes from "./pages/admin/Quizzes";
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
@@ -58,6 +59,15 @@ function App() {
           element={
             <ProtectedRoute allowedRole="STUDENT">
               <StudentDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/quizzes"
+          element={
+            <ProtectedRoute role="ADMIN">
+              <Quizzes />
             </ProtectedRoute>
           }
         />
