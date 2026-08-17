@@ -1,11 +1,11 @@
 package com.avantika.quiz_platform_backend.service;
 
 
-import com.avantika.quiz_platform_backend.dto.QuizRequest;
 import com.avantika.quiz_platform_backend.entity.Category;
 import com.avantika.quiz_platform_backend.entity.Quiz;
 import com.avantika.quiz_platform_backend.repository.CategoryRepository;
 import com.avantika.quiz_platform_backend.repository.QuizRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,16 +25,22 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public Quiz createQuiz(QuizRequest request) {
+    public Quiz createQuiz(
+            String title,
+            String description,
+            Long categoryId
+    ) {
 
-        Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() ->
+                        new RuntimeException("Category not found")
+                );
 
-        Quiz quiz = new Quiz();
-
-        quiz.setTitle(request.getTitle());
-        quiz.setDescription(request.getDescription());
-        quiz.setCategory(category);
+        Quiz quiz = Quiz.builder()
+                .title(title)
+                .description(description)
+                .category(category)
+                .build();
 
         return quizRepository.save(quiz);
     }
@@ -46,22 +52,29 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public Quiz getQuizById(Long id) {
-
         return quizRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Quiz not found"));
+                .orElseThrow(() ->
+                        new RuntimeException("Quiz not found")
+                );
     }
 
     @Override
-    public Quiz updateQuiz(Long id, QuizRequest request) {
+    public Quiz updateQuiz(
+            Long id,
+            String title,
+            String description,
+            Long categoryId
+    ) {
 
-        Quiz quiz = quizRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Quiz not found"));
+        Quiz quiz = getQuizById(id);
 
-        Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() ->
+                        new RuntimeException("Category not found")
+                );
 
-        quiz.setTitle(request.getTitle());
-        quiz.setDescription(request.getDescription());
+        quiz.setTitle(title);
+        quiz.setDescription(description);
         quiz.setCategory(category);
 
         return quizRepository.save(quiz);
@@ -69,11 +82,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public void deleteQuiz(Long id) {
-
-        if (!quizRepository.existsById(id)) {
-            throw new RuntimeException("Quiz not found");
-        }
-
-        quizRepository.deleteById(id);
+        Quiz quiz = getQuizById(id);
+        quizRepository.delete(quiz);
     }
 }

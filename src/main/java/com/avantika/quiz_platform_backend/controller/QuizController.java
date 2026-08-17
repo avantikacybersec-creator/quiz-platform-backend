@@ -1,16 +1,19 @@
 package com.avantika.quiz_platform_backend.controller;
 
 
+
 import com.avantika.quiz_platform_backend.dto.QuizRequest;
 import com.avantika.quiz_platform_backend.entity.Quiz;
 import com.avantika.quiz_platform_backend.service.QuizService;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/quizzes")
+@RequestMapping("/api/admin/quizzes")
 public class QuizController {
 
     private final QuizService quizService;
@@ -23,22 +26,31 @@ public class QuizController {
     public ResponseEntity<Quiz> createQuiz(
             @RequestBody QuizRequest request
     ) {
-        return ResponseEntity.ok(
-                quizService.createQuiz(request)
+
+        Quiz quiz = quizService.createQuiz(
+                request.getTitle(),
+                request.getDescription(),
+                request.getCategoryId()
         );
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(quiz);
     }
 
     @GetMapping
     public ResponseEntity<List<Quiz>> getAllQuizzes() {
+
         return ResponseEntity.ok(
                 quizService.getAllQuizzes()
         );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Quiz> getQuizById(
+    public ResponseEntity<Quiz> getQuiz(
             @PathVariable Long id
     ) {
+
         return ResponseEntity.ok(
                 quizService.getQuizById(id)
         );
@@ -49,15 +61,22 @@ public class QuizController {
             @PathVariable Long id,
             @RequestBody QuizRequest request
     ) {
-        return ResponseEntity.ok(
-                quizService.updateQuiz(id, request)
+
+        Quiz quiz = quizService.updateQuiz(
+                id,
+                request.getTitle(),
+                request.getDescription(),
+                request.getCategoryId()
         );
+
+        return ResponseEntity.ok(quiz);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteQuiz(
             @PathVariable Long id
     ) {
+
         quizService.deleteQuiz(id);
 
         return ResponseEntity.noContent().build();
