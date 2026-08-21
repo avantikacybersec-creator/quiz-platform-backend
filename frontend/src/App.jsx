@@ -5,14 +5,19 @@ import {
   Navigate,
 } from "react-router-dom";
 
-
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import Categories from "./pages/admin/Categories";
-import StudentDashboard from "./pages/student/StudentDashboard";
 import Quizzes from "./pages/admin/Quizzes";
+import Questions from "./pages/admin/Questions";
+
+import StudentDashboard from "./pages/student/StudentDashboard";
+import StudentQuizzes from "./pages/student/StudentQuizzes";
+import StudentQuiz from "./pages/student/StudentQuiz";
+import StudentAttemptResult from "./pages/student/StudentAttemptResult";
+
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
@@ -21,10 +26,14 @@ function App() {
 
       <Routes>
 
+        {/* ==================== DEFAULT ==================== */}
+
         <Route
           path="/"
           element={<Navigate to="/login" replace />}
         />
+
+        {/* ==================== AUTH ==================== */}
 
         <Route
           path="/login"
@@ -35,6 +44,8 @@ function App() {
           path="/register"
           element={<Register />}
         />
+
+        {/* ==================== ADMIN ==================== */}
 
         <Route
           path="/admin/dashboard"
@@ -55,6 +66,26 @@ function App() {
         />
 
         <Route
+          path="/admin/quizzes"
+          element={
+            <ProtectedRoute allowedRole="ADMIN">
+              <Quizzes />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/questions"
+          element={
+            <ProtectedRoute allowedRole="ADMIN">
+              <Questions />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ==================== STUDENT DASHBOARD ==================== */}
+
+        <Route
           path="/student/dashboard"
           element={
             <ProtectedRoute allowedRole="STUDENT">
@@ -63,11 +94,35 @@ function App() {
           }
         />
 
+        {/* ==================== STUDENT QUIZ LIST ==================== */}
+
         <Route
-          path="/admin/quizzes"
+          path="/student/quizzes"
           element={
-            <ProtectedRoute role="ADMIN">
-              <Quizzes />
+            <ProtectedRoute allowedRole="STUDENT">
+              <StudentQuizzes />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ==================== TAKE QUIZ ==================== */}
+
+        <Route
+          path="/student/quizzes/:id"
+          element={
+            <ProtectedRoute allowedRole="STUDENT">
+              <StudentQuiz />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ==================== QUIZ RESULT ==================== */}
+
+        <Route
+          path="/student/attempts/:id"
+          element={
+            <ProtectedRoute allowedRole="STUDENT">
+              <StudentAttemptResult />
             </ProtectedRoute>
           }
         />

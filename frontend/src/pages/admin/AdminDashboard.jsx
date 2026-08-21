@@ -1,8 +1,6 @@
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Categories from "./Categories";
-import Quizzes from "./Quizzes";
-
 
 export default function AdminDashboard() {
 
@@ -17,6 +15,7 @@ export default function AdminDashboard() {
     return (
         <div className="min-h-screen bg-slate-100">
 
+            {/* Header */}
             <header className="bg-white border-b px-8 py-4 flex justify-between items-center">
 
                 <h1 className="text-2xl font-bold text-slate-900">
@@ -32,6 +31,7 @@ export default function AdminDashboard() {
 
             </header>
 
+            {/* Main */}
             <main className="p-8">
 
                 <h2 className="text-3xl font-bold text-slate-900">
@@ -42,6 +42,7 @@ export default function AdminDashboard() {
                     Admin Dashboard
                 </p>
 
+                {/* Statistics */}
                 <div className="mt-8 grid md:grid-cols-4 gap-6">
 
                     <div className="bg-white p-6 rounded-xl shadow">
@@ -90,6 +91,7 @@ export default function AdminDashboard() {
                 <div className="mt-10">
                     <Categories />
                 </div>
+
                 {/* Quiz Management */}
                 <div className="mt-10 bg-white rounded-2xl shadow p-6">
 
@@ -133,6 +135,55 @@ export default function AdminDashboard() {
                             className="mt-5 text-blue-600 font-semibold hover:text-blue-800"
                         >
                             Manage Quizzes →
+                        </button>
+
+                    </div>
+
+                </div>
+
+                {/* Question Management */}
+                <div className="mt-10 bg-white rounded-2xl shadow p-6">
+
+                    <div className="flex justify-between items-center mb-6">
+
+                        <div>
+                            <h3 className="text-xl font-bold text-slate-900">
+                                Question Management
+                            </h3>
+
+                            <p className="text-sm text-slate-500 mt-1">
+                                Create and manage questions for your quizzes
+                            </p>
+                        </div>
+
+                        <button
+                            onClick={() => navigate("/admin/questions")}
+                            className="bg-purple-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-purple-700 transition"
+                        >
+                            + Add Question
+                        </button>
+
+                    </div>
+
+                    <div className="border border-dashed border-slate-300 rounded-xl p-10 text-center">
+
+                        <div className="text-4xl mb-3">
+                            ❓
+                        </div>
+
+                        <h4 className="text-lg font-semibold text-slate-800">
+                            No questions yet
+                        </h4>
+
+                        <p className="text-slate-500 mt-1">
+                            Add questions to your quizzes to get started.
+                        </p>
+
+                        <button
+                            onClick={() => navigate("/admin/questions")}
+                            className="mt-5 text-purple-600 font-semibold hover:text-purple-800"
+                        >
+                            Manage Questions →
                         </button>
 
                     </div>
